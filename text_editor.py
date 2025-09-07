@@ -1,11 +1,25 @@
 from tkinter import *
 import tkinter.filedialog
 
+# Dark mode colors
+dark_bg = "#1e1e1e"
+dark_fg = "#d4d4d4"
+dark_button_bg = "#007acc"
+dark_button_fg = "white"
+
+# Light mode colors
+light_bg = "white"
+light_fg = "black"
+light_button_bg = "#e0e0e0"
+light_button_fg = "black"
+
 # Main Window
 main = Tk()
 main.title("Text Editor")
 text = Text(main)
-text.grid()
+text.grid(row=0, column=0, stick="nsew")
+main.rowconfigure(0, weight=1)
+main.columnconfigure(0, weight=1)
 
 # Function for saving text
 def saveas():
@@ -32,9 +46,29 @@ def open_file():
             content = file.read()
 
         # Clear current text
-        text.delete("1.0", "end-1c")
+        text.delete("1.0", END)
         # Insert file text
         text.insert("1.0", content)
+
+# Function for toggling Dark Mode
+def dark_mode():
+    # Text area
+    text.config(bg=dark_bg, fg=dark_fg, insertbackground=dark_fg)
+    # Menus
+    menubar.config(bg=dark_bg, fg=dark_fg)
+    file_menu.config(bg=dark_bg, fg=dark_fg)
+    font_menu.config(bg=dark_bg, fg=dark_fg)
+    theme_menu.config(bg=dark_bg, fg=dark_fg)
+
+# Function for toggling Light Mode
+def light_mode():
+    # Text area
+    text.config(bg=light_bg, fg=light_fg, insertbackground=light_fg)
+    # Menus
+    menubar.config(bg=light_bg, fg=light_fg)
+    file_menu.config(bg=light_bg, fg=light_fg)
+    font_menu.config(bg=light_bg, fg=light_fg)
+    theme_menu.config(bg=light_bg, fg=light_fg)
 
 # Fonts
 def FontVerdana():
@@ -57,18 +91,24 @@ def FontComicSans():
 menubar = Menu(main)
 main.config(menu=menubar)
 
-# File Menu Button
+# File menu button
 file_menu = Menu(menubar, tearoff=0)
 file_menu.add_command(label="Save as...", command=saveas)
 file_menu.add_command(label="Open", command=open_file)
 menubar.add_cascade(label="File", menu=file_menu)
 
-# Font menu Button
+# Font menu button
 font_menu = Menu(menubar, tearoff=0)
 font_menu.add_radiobutton(label="Verdana", command=FontVerdana)
 font_menu.add_radiobutton(label="Courier", command=FontCourier)
 font_menu.add_radiobutton(label="Arial", command=FontArial)
 font_menu.add_radiobutton(label="Comic Sans", command=FontComicSans)
 menubar.add_cascade(label="Font", menu=font_menu)
+
+# Theme menu button
+theme_menu = Menu(menubar, tearoff=0)
+theme_menu.add_command(label="Dark Mode", command=dark_mode)
+theme_menu.add_command(label="Light Mode", command=light_mode)
+menubar.add_cascade(label="Theme", menu=theme_menu)
 
 main.mainloop()
