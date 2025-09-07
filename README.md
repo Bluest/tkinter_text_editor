@@ -3,7 +3,7 @@
 A simple text editor built in Python with Tkinter.
 
 ## Features
-- Save and Open files
+- Save files
 - Select Different Font Options
 
 ## How to Run
